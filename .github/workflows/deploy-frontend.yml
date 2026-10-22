@@ -1,0 +1,48 @@
+name: Deploy Frontend ReactTS
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'ordem-front/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ordem-front
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: ordem-front/package-lock.json
+
+      - name: Instalar Dependências e Gerar Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL || format('http://{0}:8080', secrets.EC2_HOST) }}
+          VITE_MAPTILER_API_KEY: ${{ secrets.VITE_MAPTILER_API_KEY }}
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configurar Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Sincronizar Build com Amazon S3
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      - name: Invalidar Cache do CloudFront
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
