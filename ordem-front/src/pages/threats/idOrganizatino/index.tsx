@@ -20,6 +20,7 @@ import {
 } from '../../../services/http/threats/ThreatService';
 import { useNavigate, useParams } from 'react-router';
 import { IconButton } from '../../../components/IconButton';
+import { FiPlus } from 'react-icons/fi';
 
 type CreateMemberProps = {
   name: string;

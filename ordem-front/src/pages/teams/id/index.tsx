@@ -7,7 +7,6 @@ import {
   Agent,
   AgentService,
 } from '../../../services/http/agents/AgentService';
-import { api } from '../../../services/http/lib/axios';
 import { TeamService } from '../../../services/http/teams/TeamService';
 import { Input } from '../../../components/Input';
 import { Select } from '../../../components/Select';

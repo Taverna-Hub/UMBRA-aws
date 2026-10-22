@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Checkbox } from '../../../components/Checkbox';
 import { Helmet } from 'react-helmet-async';
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../../../lib/react-query';
 import {
   Agent,
   AgentService,
