@@ -11,7 +11,9 @@ services:
     command: >
       --default-authentication-plugin=mysql_native_password
       --innodb-buffer-pool-size=128M
-      --max-connections=30
+      --max-connections=100
+      --wait-timeout=120
+      --interactive-timeout=120
     volumes:
       - mysql_data:/var/lib/mysql
       - ../../sql-scripts/ordemdb.sql:/docker-entrypoint-initdb.d/01-ordemdb.sql:ro

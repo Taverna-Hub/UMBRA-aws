@@ -2,6 +2,7 @@ package edu.cesar.taverna.bd.OP.dao;
 
 import edu.cesar.taverna.bd.OP.entity.Verissimo;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,7 +64,8 @@ public class VerissimoDAO extends GenericDAO<Verissimo> {
     }
 
     public Verissimo findByLogin(String login) throws SQLException {
-        try (PreparedStatement stmt = getConnection().prepareStatement(selectByLogin)) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectByLogin)) {
             stmt.setString(1, login);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {

@@ -47,8 +47,8 @@ public class AuthService {
                 return id_hq;
 
             }
-        } catch (SQLException e) {
-            // Logue ou trate conforme seu padrão
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
