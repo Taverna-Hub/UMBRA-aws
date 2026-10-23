@@ -28,7 +28,7 @@ jobs:
 
       - name: Instalar Dependências e Gerar Build
         env:
-          VITE_API_URL: http://${{ secrets.EC2_HOST }}:8080
+          VITE_API_URL: ""
           VITE_MAPTILER_API_KEY: ${{ secrets.VITE_MAPTILER_API_KEY }}
         run: |
           npm ci
